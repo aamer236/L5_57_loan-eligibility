@@ -1,0 +1,5 @@
+************* Module loan_calculator
+loan_calculator.py:45:0: R0913: Too many arguments (6/5) (too-many-arguments)
+
+------------------------------------------------------------------
+Your code has been rated at 9.92/10 (previous run: 9.92/10, +0.00)

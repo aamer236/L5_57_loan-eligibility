@@ -1,0 +1,10 @@
+EMI for 5L @ 9% for 5 years: 10379.177613177006
+Eligible (score 760, income 15000, EMIs 12000): False
+Eligible (unknown loan type 'crypto'): False
+Max loan for income 40000: 722600.6028144549
+Last schedule row: (12, 87.97, 0)
+Risk band for 950: INVALID
+Interest saved by prepaying 50000: 12275.065679061925
+Saved as: LN-eb8f84d13791b13cae068e69bdd67d3d
+Applications on file: 1
+Upload to bureau skipped (no network)

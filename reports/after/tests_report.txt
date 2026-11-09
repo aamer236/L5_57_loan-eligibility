@@ -1,0 +1,17 @@
+test_amortisation_reconciles_interest (test_loan_calculator.CalculationTests.test_amortisation_reconciles_interest) ... ok
+test_eligibility_requires_every_condition (test_loan_calculator.CalculationTests.test_eligibility_requires_every_condition) ... ok
+test_emi_and_maximum_amount (test_loan_calculator.CalculationTests.test_emi_and_maximum_amount) ... ok
+test_invalid_terms (test_loan_calculator.CalculationTests.test_invalid_terms) ... ok
+test_prepayment_counts_only_interest (test_loan_calculator.CalculationTests.test_prepayment_counts_only_interest) ... ok
+test_risk_boundaries (test_loan_calculator.CalculationTests.test_risk_boundaries) ... ok
+test_zero_interest_and_zero_principal (test_loan_calculator.CalculationTests.test_zero_interest_and_zero_principal) ... ok
+test_failed_load_preserves_memory (test_loan_calculator.StorageAndIntegrationTests.test_failed_load_preserves_memory) ... ok
+test_import_has_no_demo_side_effects (test_loan_calculator.StorageAndIntegrationTests.test_import_has_no_demo_side_effects) ... ok
+test_json_round_trip_and_unique_ids (test_loan_calculator.StorageAndIntegrationTests.test_json_round_trip_and_unique_ids) ... ok
+test_notification_uses_tls_and_structured_message (test_loan_calculator.StorageAndIntegrationTests.test_notification_uses_tls_and_structured_message) ... ok
+test_upload_checks_status_and_closes (test_loan_calculator.StorageAndIntegrationTests.test_upload_checks_status_and_closes) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.019s
+
+OK

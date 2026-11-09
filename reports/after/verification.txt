@@ -1,0 +1,13 @@
+Python: Python 3.14.8
+pylint exit status: 8
+pylint 4.1.3
+astroid 4.3.4
+Python 3.14.8 (main, Oct  1 2026, 00:00:00) [GCC 16.2.1 20260819 (Red Hat 16.2.1-2)]
+bandit exit status: 0
+python -m bandit 1.9.4
+  python version = 3.14.8 (main, Oct  1 2026, 00:00:00) [GCC 16.2.1 20260819 (Red Hat 16.2.1-2)]
+flake8 exit status: 0
+7.5.0 (mccabe: 0.7.0, pycodestyle: 2.15.0, pyflakes: 4.1.0) CPython 3.14.8 on
+Linux
+unittest exit status: 0
+Repeated demo preserves prior record: passed (2 records)
