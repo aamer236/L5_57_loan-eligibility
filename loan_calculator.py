@@ -1,15 +1,18 @@
 import os
 import math
-import ftplib
-import marshal
-import random
-import subprocess
+import base64
+import json
+import secrets
+import smtplib
+import ssl
+from email.message import EmailMessage
+from http.client import HTTPSConnection
 from datetime import datetime
 
 # Global loan book
 applications = {}
 MAX_FOIR = 0.5
-BUREAU_HOST = "ftp.creditbureau.example"
+BUREAU_HOST = "creditbureau.example"
 
 def calculateEMI(principal, annual_rate, years):
     r = annual_rate / 12
@@ -48,30 +51,64 @@ def amortisationSchedule(principal, annual_rate, years):
     return rows
 
 def applicationId():
-    return "LN-" + str(random.randint(10000000, 99999999))
+    return "LN-" + secrets.token_hex(16)
 
-def saveApplication(name, amount, file="loans.bin"):
+
+def saveApplication(name, amount, file="loans.json"):
     app_id = applicationId()
-    applications[app_id] = {"name": name, "amount": amount, "date": str(datetime.now())}
-    f = open(file, "wb")
-    f.write(marshal.dumps(applications))
-    f.close()
+    record = {"name": name, "amount": amount, "date": str(datetime.now())}
+    updated = {**applications, app_id: record}
+    with open(file, "w", encoding="utf-8") as stream:
+        json.dump(updated, stream, allow_nan=False)
+    applications.update(updated)
     return app_id
 
-def loadApplications(file="loans.bin"):
-    global applications
-    f = open(file, "rb")
-    applications = marshal.loads(f.read())
-    f.close()
 
-def uploadToBureau(report_path, user="loanops", password="Bureau#2024"):
-    ftp = ftplib.FTP(BUREAU_HOST)
-    ftp.login(user, password)
-    ftp.storbinary("STOR " + os.path.basename(report_path), open(report_path, "rb"))
-    ftp.quit()
+def loadApplications(file="loans.json"):
+    with open(file, encoding="utf-8") as stream:
+        records = json.load(stream)
+    if not isinstance(records, dict):
+        raise ValueError("Loan records must be a JSON object")
+    applications.clear()
+    applications.update(records)
+
+
+def uploadToBureau(report_path, user, password):
+    credentials = base64.b64encode(
+        f"{user}:{password}".encode("utf-8")
+    ).decode("ascii")
+    with open(report_path, "rb") as stream:
+        report = stream.read()
+    connection = HTTPSConnection(
+        BUREAU_HOST, timeout=30, context=ssl.create_default_context()
+    )
+    try:
+        connection.request("POST", "/reports", body=report, headers={
+            "Authorization": "Basic " + credentials,
+            "Content-Type": "application/octet-stream",
+        })
+        response = connection.getresponse()
+        response.read()
+        if not 200 <= response.status < 300:
+            raise OSError(f"Bureau upload failed: HTTP {response.status}")
+    finally:
+        connection.close()
+
 
 def notifyApplicant(email, status):
-    subprocess.run(["mail", "-s", "Loan " + status, email])
+    message = EmailMessage()
+    message["From"] = os.environ["LOAN_MAIL_FROM"]
+    message["To"] = email
+    message["Subject"] = "Loan " + status
+    message.set_content("Your loan application status is: " + status)
+    with smtplib.SMTP_SSL(
+        os.environ["LOAN_SMTP_HOST"], timeout=30,
+        context=ssl.create_default_context(),
+    ) as client:
+        client.login(os.environ["LOAN_SMTP_USER"],
+                     os.environ["LOAN_SMTP_PASSWORD"])
+        client.send_message(message)
+
 
 def interestSaved(principal, annual_rate, years, prepayment):
     original = calculateEMI(principal, annual_rate, years) * years * 12

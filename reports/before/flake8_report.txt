@@ -1,0 +1,22 @@
+loan_calculator.py:2:1: F401 'math' imported but unused
+loan_calculator.py:14:1: E302 expected 2 blank lines, found 1
+loan_calculator.py:20:1: E302 expected 2 blank lines, found 1
+loan_calculator.py:20:80: E501 line too long (85 > 79 characters)
+loan_calculator.py:33:1: E302 expected 2 blank lines, found 1
+loan_calculator.py:40:1: E302 expected 2 blank lines, found 1
+loan_calculator.py:50:1: E302 expected 2 blank lines, found 1
+loan_calculator.py:53:1: E302 expected 2 blank lines, found 1
+loan_calculator.py:55:80: E501 line too long (88 > 79 characters)
+loan_calculator.py:61:1: E302 expected 2 blank lines, found 1
+loan_calculator.py:67:1: E302 expected 2 blank lines, found 1
+loan_calculator.py:70:80: E501 line too long (84 > 79 characters)
+loan_calculator.py:73:1: E302 expected 2 blank lines, found 1
+loan_calculator.py:76:1: E302 expected 2 blank lines, found 1
+loan_calculator.py:78:80: E501 line too long (83 > 79 characters)
+loan_calculator.py:81:1: E302 expected 2 blank lines, found 1
+loan_calculator.py:93:1: E302 expected 2 blank lines, found 1
+loan_calculator.py:95:80: E501 line too long (113 > 79 characters)
+loan_calculator.py:96:80: E501 line too long (98 > 79 characters)
+loan_calculator.py:100:80: E501 line too long (86 > 79 characters)
+loan_calculator.py:104:11: F541 f-string is missing placeholders
+loan_calculator.py:106:1: E305 expected 2 blank lines after class or function definition, found 1

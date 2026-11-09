@@ -1,0 +1,110 @@
+Run started:2026-11-09 09:45:53.361293+00:00
+
+Test results:
+>> Issue: [B402:blacklist] A FTP-related module is being imported.  FTP is considered insecure. Use SSH/SFTP/SCP or some other encrypted protocol.
+   Severity: High   Confidence: High
+   CWE: CWE-319 (https://cwe.mitre.org/data/definitions/319.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_imports.html#b402-import-ftplib
+   Location: ./loan_calculator.py:3:0
+2	import math
+3	import ftplib
+4	import marshal
+
+--------------------------------------------------
+>> Issue: [B404:blacklist] Consider possible security implications associated with the subprocess module.
+   Severity: Low   Confidence: High
+   CWE: CWE-78 (https://cwe.mitre.org/data/definitions/78.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_imports.html#b404-import-subprocess
+   Location: ./loan_calculator.py:6:0
+5	import random
+6	import subprocess
+7	from datetime import datetime
+
+--------------------------------------------------
+>> Issue: [B311:blacklist] Standard pseudo-random generators are not suitable for security/cryptographic purposes.
+   Severity: Low   Confidence: High
+   CWE: CWE-330 (https://cwe.mitre.org/data/definitions/330.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_calls.html#b311-random
+   Location: ./loan_calculator.py:51:23
+50	def applicationId():
+51	    return "LN-" + str(random.randint(10000000, 99999999))
+52	
+
+--------------------------------------------------
+>> Issue: [B302:blacklist] Deserialization with the marshal module is possibly dangerous.
+   Severity: Medium   Confidence: High
+   CWE: CWE-502 (https://cwe.mitre.org/data/definitions/502.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_calls.html#b302-marshal
+   Location: ./loan_calculator.py:64:19
+63	    f = open(file, "rb")
+64	    applications = marshal.loads(f.read())
+65	    f.close()
+
+--------------------------------------------------
+>> Issue: [B107:hardcoded_password_default] Possible hardcoded password: 'Bureau#2024'
+   Severity: Low   Confidence: Medium
+   CWE: CWE-259 (https://cwe.mitre.org/data/definitions/259.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b107_hardcoded_password_default.html
+   Location: ./loan_calculator.py:67:0
+66	
+67	def uploadToBureau(report_path, user="loanops", password="Bureau#2024"):
+68	    ftp = ftplib.FTP(BUREAU_HOST)
+69	    ftp.login(user, password)
+70	    ftp.storbinary("STOR " + os.path.basename(report_path), open(report_path, "rb"))
+71	    ftp.quit()
+72	
+
+--------------------------------------------------
+>> Issue: [B321:blacklist] FTP-related functions are being called. FTP is considered insecure. Use SSH/SFTP/SCP or some other encrypted protocol.
+   Severity: High   Confidence: High
+   CWE: CWE-319 (https://cwe.mitre.org/data/definitions/319.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_calls.html#b321-ftplib
+   Location: ./loan_calculator.py:68:10
+67	def uploadToBureau(report_path, user="loanops", password="Bureau#2024"):
+68	    ftp = ftplib.FTP(BUREAU_HOST)
+69	    ftp.login(user, password)
+
+--------------------------------------------------
+>> Issue: [B607:start_process_with_partial_path] Starting a process with a partial executable path
+   Severity: Low   Confidence: High
+   CWE: CWE-78 (https://cwe.mitre.org/data/definitions/78.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b607_start_process_with_partial_path.html
+   Location: ./loan_calculator.py:74:4
+73	def notifyApplicant(email, status):
+74	    subprocess.run(["mail", "-s", "Loan " + status, email])
+75	
+
+--------------------------------------------------
+>> Issue: [B603:subprocess_without_shell_equals_true] subprocess call - check for execution of untrusted input.
+   Severity: Low   Confidence: High
+   CWE: CWE-78 (https://cwe.mitre.org/data/definitions/78.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b603_subprocess_without_shell_equals_true.html
+   Location: ./loan_calculator.py:74:4
+73	def notifyApplicant(email, status):
+74	    subprocess.run(["mail", "-s", "Loan " + status, email])
+75	
+
+--------------------------------------------------
+
+Code scanned:
+	Total lines of code: 91
+	Total lines skipped (#nosec): 0
+	Total potential issues skipped due to specifically being disabled (e.g., #nosec BXXX): 0
+
+Run metrics:
+	Total issues (by severity):
+		Undefined: 0
+		Low: 5
+		Medium: 1
+		High: 2
+	Total issues (by confidence):
+		Undefined: 0
+		Low: 0
+		Medium: 1
+		High: 7
+Files skipped (0):
+[main]	INFO	profile include tests: None
+[main]	INFO	profile exclude tests: None
+[main]	INFO	cli include tests: None
+[main]	INFO	cli exclude tests: None
+[main]	INFO	running on Python 3.14.8
